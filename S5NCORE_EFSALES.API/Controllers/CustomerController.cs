@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using S5NCORE_EFSALES.CORE.DTOs;
 using S5NCORE_EFSALES.CORE.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,21 @@ namespace S5NCORE_EFSALES.API.Controllers
         public async Task<IActionResult> Customer()
         {
             var customers = await _customerRepository.GetCustomers();
-            return Ok(customers);
+
+            var customerList = new List<CustomerCityDTO>();
+            foreach (var item in customers)
+            {
+                var customer = new CustomerCityDTO()
+                {
+                    Id= item.Id,
+                    //FirstName = item.FirstName,
+                    LastName = item.LastName,
+                    City = item.City,
+                    //Phone = item.Phone
+                };
+                customerList.Add(customer);
+            }
+            return Ok(customerList);
         }
 
 

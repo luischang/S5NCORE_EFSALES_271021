@@ -1,11 +1,15 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using S5NCORE_EFSALES.CORE.Interfaces;
+using S5NCORE_EFSALES.INFRASTRUCTURE.Data;
+using S5NCORE_EFSALES.INFRASTRUCTURE.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +35,13 @@ namespace S5NCORE_EFSALES.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "S5NCORE_EFSALES.API", Version = "v1" });
             });
+            services.AddDbContext<SalesDBContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("DevConnection"));
+            });
+
+            services.AddTransient<ICustomerRepository, CustomerRepository>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

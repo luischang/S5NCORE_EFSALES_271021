@@ -55,6 +55,7 @@ namespace S5NCORE_EFSALES.API.Controllers
 
         [HttpGet]
         [Route("CustomerById")]
+        //[AllowAnonymous]
         public async Task<IActionResult> CustomerById(int id)
         {
             var customer = await _customerService.GetCustomersById(id);

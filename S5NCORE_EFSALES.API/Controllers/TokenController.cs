@@ -50,7 +50,7 @@ namespace S5NCORE_EFSALES.API.Controllers
                 new Claim("Country","USA")
             };
 
-            var payload = new JwtPayload(_configuration["Authentication:Issuer"], _configuration["Authentication:Audience"], claims, DateTime.Now, DateTime.Now.AddMinutes(5));
+            var payload = new JwtPayload(_configuration["Authentication:Issuer"], _configuration["Authentication:Audience"], claims, DateTime.UtcNow, DateTime.UtcNow.AddMinutes(1));
 
             var token = new JwtSecurityToken(header, payload);
             return new JwtSecurityTokenHandler().WriteToken(token);

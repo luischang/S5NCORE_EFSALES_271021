@@ -17,11 +17,17 @@ namespace S5NCORE_EFSALES.INFRASTRUCTURE.Mappings
             CreateMap<CustomerDTO, Customer>();
 
             CreateMap<Customer, CustomerCountryDTO>();
-                //.ForMember(dest=>dest.Country, opt=>opt.MapFrom(src=>src.Pais));
+            //.ForMember(dest=>dest.Country, opt=>opt.MapFrom(src=>src.Pais));
             CreateMap<CustomerCountryDTO, Customer>();
 
             CreateMap<Customer, CustomerPostDTO>();
             CreateMap<CustomerPostDTO, Customer>();
+
+            CreateMap<Customer, CustomerAndOrdersDTO>();
+            CreateMap<CustomerAndOrdersDTO, Customer>();
+
+            CreateMap<Order, OrderDTO>();
+            CreateMap<OrderDTO, Order>();
         }
 
 

@@ -3,6 +3,7 @@ using S5NCORE_EFSALES.CORE.Entities;
 using S5NCORE_EFSALES.CORE.Interfaces;
 using S5NCORE_EFSALES.INFRASTRUCTURE.Data;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace S5NCORE_EFSALES.INFRASTRUCTURE.Repositories
@@ -22,7 +23,9 @@ namespace S5NCORE_EFSALES.INFRASTRUCTURE.Repositories
         }
         public async Task<Customer> GetCustomerById(int id)
         {
-            return await _context.Customer.FindAsync(id);
+            return await _context.Customer
+                .Include(x => x.Order)
+                .Where(z=>z.Id == id).FirstOrDefaultAsync();
         }
 
         public async Task<bool> Insert(Customer customer)

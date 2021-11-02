@@ -15,12 +15,14 @@ namespace S5NCORE_EFSALES.API.Controllers
     [ApiController]
     public class CustomerController : ControllerBase
     {
-        private readonly ICustomerRepository _customerRepository;
+        //private readonly ICustomerRepository _customerRepository;
+        private readonly ICustomerService _customerService;
         private readonly IMapper _mapper;
 
-        public CustomerController(ICustomerRepository customerRepository, IMapper mapper)
+        //public CustomerController(ICustomerRepository customerRepository, IMapper mapper)
+        public CustomerController(ICustomerService customerService, IMapper mapper)
         {
-            _customerRepository = customerRepository;
+            _customerService = customerService;
             _mapper = mapper;
         }
 
@@ -28,7 +30,7 @@ namespace S5NCORE_EFSALES.API.Controllers
         [Route("Customer")]
         public async Task<IActionResult> Customer()
         {
-            var customers = await _customerRepository.GetCustomers();
+            var customers = await _customerService.GetCustomers();
 
             //var customerList = new List<CustomerDTO>();
             //foreach (var item in customers)
@@ -52,10 +54,22 @@ namespace S5NCORE_EFSALES.API.Controllers
         [Route("CustomerById")]
         public async Task<IActionResult> CustomerById(int id)
         {
-            var customer = await _customerRepository.GetCustomerById(id);
+            var customer = await _customerService.GetCustomersById(id);
             if (customer == null)
                 return NotFound();
             var customerDTO = _mapper.Map<CustomerDTO>(customer);
+
+            return Ok(customerDTO);
+        }
+
+        [HttpGet]
+        [Route("CustomerOrdersById")]
+        public async Task<IActionResult> CustomerOrdersById(int id)
+        {
+            var customer = await _customerService.GetCustomersById(id);
+            if (customer == null)
+                return NotFound();
+            var customerDTO = _mapper.Map<CustomerAndOrdersDTO>(customer);
 
             return Ok(customerDTO);
         }
@@ -65,7 +79,7 @@ namespace S5NCORE_EFSALES.API.Controllers
         public async Task<IActionResult> PostCustomer(CustomerPostDTO customerDTO)
         {
             var customer = _mapper.Map<Customer>(customerDTO);
-            var result = await _customerRepository.Insert(customer);
+            var result = await _customerService.Insert(customer);
             return Ok(result);
         }
 
@@ -78,7 +92,7 @@ namespace S5NCORE_EFSALES.API.Controllers
                 return NotFound();
 
             var customer = _mapper.Map<Customer>(customerDTO);
-            var result = await _customerRepository.Update(customer);
+            var result = await _customerService.Update(customer);
             return Ok(result);
         }
 
@@ -86,7 +100,7 @@ namespace S5NCORE_EFSALES.API.Controllers
         [Route("DeleteCustomer")]
         public async Task<IActionResult> DeleteCustomer(int id)
         {
-            var result = await _customerRepository.Delete(id);
+            var result = await _customerService.Delete(id);
             if (!result)
                 return NotFound();
             return Ok(result);

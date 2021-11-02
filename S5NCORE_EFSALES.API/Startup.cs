@@ -8,7 +8,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using S5NCORE_EFSALES.CORE.Interfaces;
+using S5NCORE_EFSALES.CORE.Services;
 using S5NCORE_EFSALES.INFRASTRUCTURE.Data;
+using S5NCORE_EFSALES.INFRASTRUCTURE.Filters;
 using S5NCORE_EFSALES.INFRASTRUCTURE.Repositories;
 using System;
 using System.Collections.Generic;
@@ -41,7 +43,13 @@ namespace S5NCORE_EFSALES.API
             });
 
             services.AddTransient<ICustomerRepository, CustomerRepository>();
+            services.AddTransient<ICustomerService, CustomerService>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            services.AddControllers(options =>
+            {
+                options.Filters.Add<GlobalExceptionFilter>();
+            });
 
         }
 

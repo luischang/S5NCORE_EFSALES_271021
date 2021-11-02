@@ -86,10 +86,10 @@ namespace S5NCORE_EFSALES.API.Controllers
 
         [HttpPut]
         [Route("PutCustomer")]
-        public async Task<IActionResult> PutCustomer(int id, CustomerDTO customerDTO)
+        public async Task<IActionResult> PutCustomer(CustomerDTO customerDTO)
         {
-            if (id != customerDTO.Id)
-                return NotFound();
+            //if (id != customerDTO.Id)
+            //    return NotFound();
 
             var customer = _mapper.Map<Customer>(customerDTO);
             var result = await _customerService.Update(customer);

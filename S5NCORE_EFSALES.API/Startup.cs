@@ -41,6 +41,7 @@ namespace S5NCORE_EFSALES.API
             });
 
             services.AddTransient<ICustomerRepository, CustomerRepository>();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
         }
 

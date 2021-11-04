@@ -35,6 +35,17 @@ namespace S5NCORE_EFSALES.API
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowOrigin", builder =>
+                    builder
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowAnyOrigin()
+                );
+
+            });
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -88,6 +99,7 @@ namespace S5NCORE_EFSALES.API
             }
 
             app.UseRouting();
+            app.UseCors("AllowOrigin");
 
             app.UseAuthentication();
             app.UseAuthorization();
